@@ -175,6 +175,12 @@ namespace gl {
                 GL_DONT_CARE /* any source */,
                 GL_DONT_CARE /* any type */,
                 GL_DEBUG_SEVERITY_HIGH, 0, nullptr, GL_TRUE);
+
+            // this silences a useless API usage hint (not an error) on some systems/GPUs:
+            // "DEBUG: [GL] [API] [Other] 131185 Buffer detailed info: Buffer object 2 (bound to GL_ELEMENT_ARRAY_BUFFER_ARB, usage hint is GL_DYNAMIC_DRAW) will use VIDEO memory as the source for buffer object operations."
+            GLuint id = 131185;
+            glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_OTHER, GL_DONT_CARE, 1, &id, GL_FALSE);
+
             glEnable(synchronous ? GL_DEBUG_OUTPUT_SYNCHRONOUS : GL_DEBUG_OUTPUT);
             return true;
         }
